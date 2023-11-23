@@ -33,10 +33,6 @@ h1 {
   stroke-linecap: round;
 }
 
-.figure-part {
-  display: none;
-}
-
 .wrong-letters-container {
   position: absolute;
   top: 20px;

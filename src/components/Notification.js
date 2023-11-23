@@ -1,9 +1,13 @@
 import React from "react";
 
-function Notification() {
+function Notification({ showNotification }) {
   return (
-    <div className="notification-container" id="notification-container">
-      <p>You have already entered this letter</p>
+    <div>
+      {showNotification && (
+        <div className="notification-container show">
+          <p>You have already entered this letter</p>
+        </div>
+      )}
     </div>
   );
 }
