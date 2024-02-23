@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: "Press Start 2P";
 }
 
 body {
@@ -10,12 +11,18 @@ body {
   flex-direction: column;
   align-items: center;
   height: 80vh;
+  padding-top: 30px;
   margin: 0;
   overflow: hidden;
 }
 
 h1 {
   margin: 20px 0 0;
+}
+
+.start-game-container {
+  display: flex;
+  justify-content: center;
 }
 
 .game-container {
@@ -28,7 +35,7 @@ h1 {
 
 .figure-container {
   fill: transparent;
-  stroke: #fff;
+  stroke: black;
   stroke-width: 4px;
   stroke-linecap: round;
 }

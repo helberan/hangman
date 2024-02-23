@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { checkWin } from "../helpers/helpers";
+import "nes.css/css/nes.min.css";
 
 function Popup({
   correctLetters,
@@ -21,17 +22,25 @@ function Popup({
     playable = false;
   }
 
-  useEffect(() => setPlayable(playable));
+  useEffect(() => {
+    setPlayable(playable);
+  }, [playable]);
 
   return (
     <div
       className="popup-container"
       style={finalMessage !== "" ? { display: "flex" } : {}}
     >
-      <div className="popup">
+      <div className="nes-container with-title is-centered popup">
         <h2>{finalMessage}</h2>
         <h3>{finalRevealWord}</h3>
-        <button onClick={playAgain}>Play again</button>
+        <button
+          type="button"
+          className="nes-btn is-primary"
+          onClick={playAgain}
+        >
+          Play again
+        </button>
       </div>
     </div>
   );

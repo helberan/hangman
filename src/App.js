@@ -1,4 +1,5 @@
 import "./App.css";
+import "nes.css/css/nes.min.css";
 import Header from "./components/Header";
 import Figure from "./components/Figure";
 import Word from "./components/Word";
@@ -71,6 +72,8 @@ function App() {
     setCorrectLetters([]);
     setWrongLetters([]);
 
+    setSelectedWord("");
+
     //new word
     await fetchWord();
   }
@@ -92,7 +95,15 @@ function App() {
           playAgain={playAgain}
         />
       ) : (
-        <button onClick={playAgain}>Start game</button>
+        <div className="start-game-container">
+          <button
+            type="button"
+            className="nes-btn is-primary"
+            onClick={playAgain}
+          >
+            Start game
+          </button>
+        </div>
       )}
       <Notification showNotification={showNotification} />
     </div>
