@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Postava({ wrongLetters }) {
+function Figure({ wrongLetters }) {
   const errors = wrongLetters.length;
 
   return (
@@ -25,4 +25,4 @@ function Postava({ wrongLetters }) {
   );
 }
 
-export default Postava;
+export default Figure;

@@ -1,6 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
-import Postava from "./components/Postava";
+import Figure from "./components/Figure";
 import Word from "./components/Word";
 import WrongLetters from "./components/WrongLetters";
 import Notification from "./components/Notification";
@@ -9,18 +9,27 @@ import { showNotification as show } from "./helpers/helpers";
 
 import React, { useState, useEffect } from "react";
 
-//slova k uhodnutí
-const words = ["giraffe", "hippopotamus", "chimpanzee", "gorilla"];
-//random zvolené slovo z words
-let selectedWord = words[Math.floor(Math.random() * words.length)];
-
 function App() {
-  const [playable, setPlayable] = useState(true);
+  const [playable, setPlayable] = useState(false);
   const [correctLetters, setCorrectLetters] = useState([]);
   const [wrongLetters, setWrongLetters] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
+  const [selectedWord, setSelectedWord] = useState("");
+  const [gameStarted, setGameStarted] = useState(false);
+
+  async function fetchWord() {
+    let response = await fetch("https://random-word-api.herokuapp.com/word");
+    let randomWord = await response.json();
+    setSelectedWord(randomWord[0]);
+    setPlayable(true);
+    setGameStarted(true);
+
+    console.log("randomWord: ", randomWord);
+    console.log("selectedWord from fetch: ", selectedWord);
+  }
 
   useEffect(() => {
+    console.log("selectedWord: ", selectedWord);
     const handleKeydown = (event) => {
       const { key, keyCode } = event;
       console.log(key, keyCode);
@@ -48,40 +57,43 @@ function App() {
     //event listener na stisknutí klávesnice, jakmile se stiskne klávesnice, spustí se funkce handleKeydown
     window.addEventListener("keydown", handleKeydown);
 
-    //event listener celanup
+    //event listener cleanup
     return () => {
       window.removeEventListener("keydown", handleKeydown);
     };
   }, [correctLetters, wrongLetters, playable]);
 
-  const playAgain = () => {
-    setPlayable(true);
+  async function playAgain() {
+    //debugger;
+    setPlayable(false);
 
     //vyprázdění psímen
     setCorrectLetters([]);
     setWrongLetters([]);
 
-    //slova k uhodnutí
-    const random = Math.floor(Math.random() * words.length);
-    //random zvolené slovo z words
-    selectedWord = words[random];
-  };
+    //new word
+    await fetchWord();
+  }
 
   return (
     <div className="App">
       <Header />
       <div className="game-container">
-        <Postava wrongLetters={wrongLetters} />
+        <Figure wrongLetters={wrongLetters} />
         <WrongLetters wrongLetters={wrongLetters} />
         <Word selectedWord={selectedWord} correctLetters={correctLetters} />
       </div>
-      <Popup
-        correctLetters={correctLetters}
-        wrongLetters={wrongLetters}
-        selectedWord={selectedWord}
-        setPlayable={setPlayable}
-        playAgain={playAgain}
-      />
+      {gameStarted ? (
+        <Popup
+          correctLetters={correctLetters}
+          wrongLetters={wrongLetters}
+          selectedWord={selectedWord}
+          setPlayable={setPlayable}
+          playAgain={playAgain}
+        />
+      ) : (
+        <button onClick={playAgain}>Start game</button>
+      )}
       <Notification showNotification={showNotification} />
     </div>
   );
